@@ -16,4 +16,4 @@ jobs:
     buildConfiguration: $(buildConfiguration)
     projectPath: TemperatureWebSite
     publishPath: TemperatureWebSite/TemperatureWebSite
-    webAppName: escalona1811TempSite
+    webAppName: escalona1811Temp
