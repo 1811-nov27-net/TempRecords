@@ -1,0 +1,51 @@
+parameters:
+  buildConfiguration: 'Release'
+  projectPath: ''
+  publishPath: ''
+  webAppName: 'app'
+
+jobs:
+
+- job: ${{ parameters.webAppName }}
+
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: build
+      projects: ${{ parameters.projectPath }}
+      configuration: ${{ parameters.buildConfiguration }}
+    displayName: dotnet build
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: ${{ parameters.projectPath }}
+      configuration: ${{ parameters.buildConfiguration }}
+      publishTestResults: true
+    displayName: dotnet test
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: publish
+      projects: ${{ parameters.publishPath }}
+      configuration: ${{ parameters.buildConfiguration }}
+      publishWebProjects: false
+      arguments: '--output $(System.DefaultWorkingDirectory)/publish'
+      zipAfterPublish: true
+    displayName: dotnet publish
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: ${{ parameters.webAppName }}
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/publish'
+
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      azureSubscription: azure-outlook
+      webAppName: ${{ parameters.webAppName }}
+      takeAppOfflineFlag: true
+      package: 'publish/*.zip'
