@@ -11,7 +11,7 @@ variables:
   buildConfiguration: 'Release'
 
 jobs:
-- template: template-webapp-job.yml
+- template: ../template-webapp-job.yml
   parameters:
     buildConfiguration: $(buildConfiguration)
     projectPath: TemperatureREST
