@@ -17,3 +17,11 @@ jobs:
     projectPath: TemperatureREST
     publishPath: TemperatureREST/TemperatureREST
     webAppName: escalona1811TempService
+
+- job: ''
+  condition: False
+  steps:
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      azureSubscription: azure-outlook
+      webAppName: asdfasdf
