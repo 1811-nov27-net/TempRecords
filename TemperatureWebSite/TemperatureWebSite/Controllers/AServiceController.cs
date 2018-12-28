@@ -14,19 +14,20 @@ namespace TemperatureWebSite.Controllers
     public class AServiceController : Controller
     {
         protected static readonly string s_CookieName = "TempApiAuth";
-        private static readonly Uri s_serviceUri = new Uri("https://localhost:44365/");
+        private readonly Uri serviceUri;
 
         public HttpClient Client { get; set; }
 
         // dependency injection
-        public AServiceController(HttpClient client)
+        public AServiceController(HttpClient client, IConfiguration config)
         {
             Client = client;
+            serviceUri = new Uri(config["ServiceUrl"]);
         }
 
         public HttpRequestMessage CreateRequestToService(HttpMethod method, string uri, object body = null)
         {
-            var apiRequest = new HttpRequestMessage(method, new Uri(s_serviceUri, uri));
+            var apiRequest = new HttpRequestMessage(method, new Uri(serviceUri, uri));
 
             if (body != null)
             {

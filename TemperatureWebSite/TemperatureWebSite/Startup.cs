@@ -28,6 +28,7 @@ namespace TemperatureWebSite
         {
             // when you add a service like this, the framework will construct the class for you
             services.AddSingleton<HttpClient>();
+            services.AddSingleton(Configuration);
 
             // with singleton, we can make the single instance ourselves
             //var singleClient = new HttpClient();
